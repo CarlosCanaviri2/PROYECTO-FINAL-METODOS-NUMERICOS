@@ -2,6 +2,9 @@ from flask import Flask, render_template, request
 import numpy as np
 import matplotlib.pyplot as plt
 import os
+import matplotlib
+matplotlib.use("Agg")        # <- importante para entornos headless (Render/Railway)
+import matplotlib.pyplot as plt
 
 app = Flask(__name__)
 
@@ -207,4 +210,6 @@ def pagina_secante():
 if __name__ == "__main__":
     if not os.path.exists("static"):
         os.makedirs("static")
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port, debug=False)
+# ...existing code...
