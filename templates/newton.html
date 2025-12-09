@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block contenido %}
+<h2>Método de Newton</h2>
+
+<p><strong>Planteo del ejercicio:</strong><br>
+Buscamos resolver la ecuación <code>f(x) = x³ − 5x + 1</code>.  
+El objetivo es aproximar el valor de x donde la función se hace cero.</p>
+
+<p><strong>Cómo se desarrolla el método:</strong><br>
+El método de Newton utiliza la recta tangente en un punto inicial para aproximar la raíz.  
+En cada paso se aplica la fórmula: <code>x = x − f(x)/f’(x)</code>, lo que genera aproximaciones cada vez más precisas.</p>
+
+
+<form method="post" class="row g-3 mb-3">
+    <div class="col-md-4">
+        <label>Valor inicial (x0)</label>
+        <input name="x0" class="form-control" value="1">
+    </div>
+
+    <div class="col-md-4">
+        <label>Tolerancia</label>
+        <input name="tol" class="form-control" value="1e-6">
+    </div>
+
+    <div class="col-md-4 d-flex align-items-end">
+        <button class="btn btn-primary w-100">Calcular</button>
+    </div>
+</form>
+
+{% if error %}
+<div class="alert alert-danger">{{ error }}</div>
+{% endif %}
+
+{% if resultado %}
+<h4>Raíz aproximada: {{ resultado.raiz }}</h4>
+
+<h5>Iteraciones:</h5>
+<pre class="bg-dark text-light p-3 rounded">
+{% for it in resultado.historial %}
+Iter {{ it[0] }} → x={{ it[1] }}, f(x)={{ it[2] }}
+{% endfor %}
+</pre>
+
+{% if grafica %}
+<h4>Gráfica</h4>
+<img src="/{{ grafica }}" class="img-fluid border rounded">
+{% endif %}
+{% endif %}
+{% endblock %}

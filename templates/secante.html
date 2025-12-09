@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block contenido %}
+<h2>Método de la Secante</h2>
+
+<p><strong>Planteo del ejercicio:</strong><br>
+Queremos encontrar la raíz de la ecuación <code>f(x) = x³ − x − 1</code> utilizando dos valores iniciales distintos.</p>
+
+<p><strong>Cómo se desarrolla el método:</strong><br>
+El método de la secante aproxima la derivada usando dos puntos consecutivos.  
+La fórmula actualiza la aproximación usando una línea que cruza la gráfica de la función, acercándose a la raíz sin necesidad de derivadas.</p>
+
+
+<form method="post" class="row g-3 mb-3">
+
+    <div class="col-md-4">
+        <label>x0</label>
+        <input name="x0" class="form-control" value="1">
+    </div>
+
+    <div class="col-md-4">
+        <label>x1</label>
+        <input name="x1" class="form-control" value="2">
+    </div>
+
+    <div class="col-md-4">
+        <label>Tolerancia</label>
+        <input name="tol" class="form-control" value="1e-6">
+    </div>
+
+    <div class="col-md-12 d-flex align-items-end">
+        <button class="btn btn-primary w-100">Calcular</button>
+    </div>
+
+</form>
+
+{% if error %}
+<div class="alert alert-danger">{{ error }}</div>
+{% endif %}
+
+{% if resultado %}
+<h4>Raíz aproximada: {{ resultado.raiz }}</h4>
+
+<h5>Iteraciones:</h5>
+<pre class="bg-dark text-light p-3 rounded">
+{% for it in resultado.historial %}
+Iter {{ it[0] }} → x0={{ it[1] }}, x1={{ it[2] }}, f(x1)={{ it[3] }}
+{% endfor %}
+</pre>
+
+{% if grafica %}
+<h4>Gráfica</h4>
+<img src="/{{ grafica }}" class="img-fluid border rounded">
+{% endif %}
+{% endif %}
+{% endblock %}

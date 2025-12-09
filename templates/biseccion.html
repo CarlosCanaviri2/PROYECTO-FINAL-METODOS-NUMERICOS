@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block contenido %}
+<h2>Método de la Bisección</h2>
+<p><strong>Planteo del ejercicio:</strong><br>
+Queremos encontrar una raíz de la ecuación <code>f(x) = sin(x) − 0.3x</code>.  
+Sabemos que en el intervalo elegido la función cambia de signo, por lo que la raíz está garantizada.</p>
+
+<p><strong>Cómo se desarrolla el método:</strong><br>
+El método de la bisección divide el intervalo en dos partes y elige aquella donde la función cambia de signo.  
+Este proceso se repite hasta que la longitud del intervalo es menor que la tolerancia.</p>
+
+
+<form method="post" class="row g-3 mb-3">
+    <div class="col-md-3">
+        <label>Límite inferior (a)</label>
+        <input name="a" class="form-control" value="0">
+    </div>
+
+    <div class="col-md-3">
+        <label>Límite superior (b)</label>
+        <input name="b" class="form-control" value="3">
+    </div>
+
+    <div class="col-md-3">
+        <label>Tolerancia</label>
+        <input name="tol" class="form-control" value="1e-6">
+    </div>
+
+    <div class="col-md-3 d-flex align-items-end">
+        <button class="btn btn-primary w-100">Calcular</button>
+    </div>
+</form>
+
+{% if error %}
+<div class="alert alert-danger">{{ error }}</div>
+{% endif %}
+
+{% if resultado %}
+<h4>Raíz aproximada: {{ resultado.raiz }}</h4>
+
+<h5>Iteraciones:</h5>
+<pre class="bg-dark text-light p-3 rounded">
+{% for it in resultado.historial %}
+Iter {{ it[0] }} → a={{ it[1] }}, b={{ it[2] }}, m={{ it[3] }}, f(m)={{ it[4] }}
+{% endfor %}
+</pre>
+
+{% if grafica %}
+<h4>Gráfica</h4>
+<img src="/{{ grafica }}" class="img-fluid border rounded">
+{% endif %}
+{% endif %}
+{% endblock %}
